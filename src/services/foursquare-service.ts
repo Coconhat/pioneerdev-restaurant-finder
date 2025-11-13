@@ -1,4 +1,8 @@
-export async function searchPlaces(params: Record<string, any>) {
+import { AllowedParams, FoursquarePlace } from "../types/foursquare-type";
+
+export async function searchPlaces(
+  params: AllowedParams
+): Promise<FoursquarePlace[]> {
   const apiKey = process.env.FOURSQUARE_API_KEY;
   if (!apiKey)
     throw new Error("Missing FOURSQUARE_API_KEY environment variable.");
@@ -6,21 +10,7 @@ export async function searchPlaces(params: Record<string, any>) {
   // Build query string
   const queryParams = new URLSearchParams();
 
-  // Add only defined parameters
-  const allowedKeys = [
-    "query",
-    "near",
-    "ll",
-    "radius",
-    "min_price",
-    "max_price",
-    "open_now",
-    "open_at",
-    "sort",
-    "limit",
-  ];
-
-  for (const key of allowedKeys) {
+  for (const key in params) {
     if (params[key] !== undefined && params[key] !== null) {
       queryParams.append(key, String(params[key]));
     }
