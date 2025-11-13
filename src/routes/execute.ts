@@ -1,6 +1,6 @@
-import { GoogleGenAI } from "@google/genai";
 import Router from "express";
 import { convertToFoursquareQuery } from "../services/gemini-service";
+import { searchPlaces } from "../services/foursquare-service";
 
 const router = Router();
 
@@ -14,11 +14,16 @@ router.get("/", async (req, res) => {
     return res.status(401).json({ error: "Unauthorized" });
   }
   try {
+    // Convert message to Foursquare query parameters using Gemini AI
     const data = await convertToFoursquareQuery(message as string);
+    console.log(`data parametersss:`, data.parameters);
+
+    // Search places on Foursquare API using the generated parameters
+    const places = await searchPlaces(data.parameters);
 
     res.json({
       success: true,
-      data: data,
+      data: places, // return the json results from Foursquare API
     });
   } catch (error) {
     console.error("Error generating content:", error);
