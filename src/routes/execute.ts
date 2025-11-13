@@ -20,7 +20,7 @@ router.get("/", async (req, res) => {
   try {
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
-      contents: `Your job is to convert the user's message into a json format for the Foursquare Places API,
+      contents: `Your job is to convert the user's message into a valid JSON format for the Foursquare Places API,
 
       it should be like this: 
       {
@@ -34,9 +34,18 @@ router.get("/", async (req, res) => {
       
       user message: ${message}`,
     });
+
+    let text = response.text
+      .replace(/```json/g, "")
+      .replace(/```/g, "")
+      .replace(/json\n/g, "")
+      .trim();
+
+    const parsedData = JSON.parse(text);
+
     res.json({
       success: true,
-      aiResponse: response.text,
+      data: parsedData,
     });
   } catch (error) {
     console.error("Error generating content:", error);
