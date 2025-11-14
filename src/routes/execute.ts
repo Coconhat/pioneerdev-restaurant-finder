@@ -7,7 +7,7 @@ const router = Router();
 router.get("/", async (req, res) => {
   console.log("query:", req.query);
 
-  const { message, code } = req.query;
+  const { message } = req.query;
 
   try {
     // Convert message to Foursquare query parameters using Gemini AI
