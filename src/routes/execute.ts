@@ -9,10 +9,6 @@ router.get("/", async (req, res) => {
 
   const { message, code } = req.query;
 
-  // Auth check
-  if (code !== process.env.AUTH_CODE) {
-    return res.status(401).json({ error: "Unauthorized" });
-  }
   try {
     // Convert message to Foursquare query parameters using Gemini AI
     const data = await convertToFoursquareQuery(message as string);
