@@ -4,7 +4,7 @@ import { searchPlaces } from "../services/foursquare-service";
 
 const router = Router();
 
-router.get("/", async (req, res) => {
+router.get("/execute", async (req, res) => {
   console.log("query:", req.query);
 
   const { message } = req.query;

@@ -29,6 +29,6 @@ app.get("/", (_req, res) => {
   });
 });
 
-app.use("/api/execute", validateCode, validateMessage, executeRoute);
+app.use("/api", validateCode, validateMessage, executeRoute);
 
 export default app;
